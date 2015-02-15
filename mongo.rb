@@ -8,12 +8,17 @@ if Gem::Version.new(version) < Gem::Version.new('4.1.0')
   exit 1
 end
 
+if yes?("Use Bootstrap?")
+  bootstrap = true
+end
+
+
 remove_file 'Gemfile'
 create_file 'Gemfile' do <<-TEXT
 source 'https://rubygems.org'
 
 ruby '2.1.5'
-gem 'rails', '4.2.0'
+gem 'rails', '4.1.8'
 
 # Mongo DB
 gem 'moped'
@@ -33,6 +38,7 @@ gem 'evil-blocks-rails'
 gem 'normalize-rails'
 gem 'svg_rails', github: 'mustangostang/svg_rails'
 gem 'rails_view_helpers', github: 'jimmyn/rails_view_helpers'
+#{"gem 'bootstrap-sass'" if bootstrap}
 
 # Business logic
 gem 'therubyracer'
@@ -50,8 +56,9 @@ gem 'devise'
 gem 'devise-russian'
 
 # Activeadmin
-gem 'activeadmin', github: 'gregbell/active_admin'
-gem 'activeadmin-mongoid', github: 'elia/activeadmin-mongoid', branch: 'rails4'
+gem 'ransack', github: 'pencilcheck/ransack', branch: 'patch-1'
+gem 'activeadmin', github: 'activeadmin'
+gem 'activeadmin-mongoid', github: 'pencilcheck/activeadmin-mongoid', branch: 'patch-1'
 gem 'activeadmin-settings', github: 'jimmyn/activeadmin-settings'
 gem 'active_admin_theme', github: 'jimmyn/active_admin_theme'
 gem 'activeadmin-extra', github: 'jimmyn/activeadmin-extra'
@@ -70,7 +77,8 @@ end
 
 run 'bundle install'
 
-generate "simple_form:install"
+generate "simple_form:install #{'--bootstrap' if bootstrap}"
+
 generate "devise:install"
 generate "active_admin:install"
 
@@ -182,10 +190,83 @@ body
 TEXT
 end
 
+if bootstrap
+create_file 'app/assets/stylesheets/bootstrap_custom.sass' do <<-TEXT
+// Core variables and mixins
+@import bootstrap/variables
+@import bootstrap/mixins
+
+// Reset and dependencies
+@import bootstrap/normalize
+@import bootstrap/print
+@import bootstrap/glyphicons
+
+// Core CSS
+@import bootstrap/scaffolding
+@import bootstrap/type
+@import bootstrap/code
+@import bootstrap/grid
+@import bootstrap/tables
+@import bootstrap/forms
+@import bootstrap/buttons
+
+// Components
+@import bootstrap/component-animations
+@import bootstrap/dropdowns
+@import bootstrap/button-groups
+@import bootstrap/input-groups
+@import bootstrap/navs
+@import bootstrap/navbar
+@import bootstrap/breadcrumbs
+@import bootstrap/pagination
+@import bootstrap/pager
+@import bootstrap/labels
+@import bootstrap/badges
+@import bootstrap/jumbotron
+@import bootstrap/thumbnails
+@import bootstrap/alerts
+@import bootstrap/progress-bars
+@import bootstrap/media
+@import bootstrap/list-group
+@import bootstrap/panels
+@import bootstrap/responsive-embed
+@import bootstrap/wells
+@import bootstrap/close
+
+// Components w/ JavaScript
+@import bootstrap/modals
+@import bootstrap/tooltip
+@import bootstrap/popovers
+@import bootstrap/carousel
+
+// Utility classes
+@import bootstrap/utilities
+@import bootstrap/responsive-utilities
+TEXT
+end
+
+create_file 'app/assets/javascripts/bootstrap_custom.js.coffee' do <<-TEXT
+#= require bootstrap/affix
+#= require bootstrap/alert
+#= require bootstrap/button
+#= require bootstrap/carousel
+#= require bootstrap/collapse
+#= require bootstrap/dropdown
+#= require bootstrap/modal
+#= require bootstrap/popover
+#= require bootstrap/scrollspy
+#= require bootstrap/tab
+#= require bootstrap/tooltip
+#= require bootstrap/transition
+TEXT
+end
+end
+
 remove_file 'app/assets/stylesheets/application.css'
 create_file 'app/assets/stylesheets/application.css.sass' do <<-TEXT
 @import normalize-rails
 @import compass
+@import bootstrap_custom
 TEXT
 end
 
@@ -194,6 +275,7 @@ create_file 'app/assets/javascripts/application.js.coffee' do <<-TEXT
 #= require jquery
 #= require jquery_ujs
 #= require evil-blocks
+#= require bootstrap_custom
 #= require_tree ./blocks
 
 TEXT
