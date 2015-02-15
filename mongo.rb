@@ -29,9 +29,9 @@ gem 'compass-rails'
 
 # Frontend
 gem 'slim-rails'
+gem 'active_link_to'
 gem 'evil-blocks-rails'
 gem 'normalize-rails'
-gem 'svg_rails', github: 'mustangostang/svg_rails'
 
 # Business logic
 gem 'therubyracer'
@@ -46,7 +46,6 @@ gem 'mongoid_globalize'
 gem 'bson_ext'
 gem 'fog'
 gem 'devise'
-gem 'devise-russian'
 
 # Activeadmin
 gem 'activeadmin', github: 'gregbell/active_admin'
