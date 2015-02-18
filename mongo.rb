@@ -23,6 +23,7 @@ gem 'rails', '4.1.8'
 # Mongo DB
 gem 'moped'
 gem 'mongoid'
+gem 'mongoid-slug'
 
 # Assets
 gem 'uglifier'
@@ -49,7 +50,7 @@ gem 'ffaker'
 gem 'russian'
 gem 'mini_magick'
 gem 'carrierwave-mongoid'
-gem 'mongoid_globalize'
+gem 'mongoid_globalize', github: 'Infotaku/mongoid_globalize'
 gem 'bson_ext'
 gem 'fog'
 gem 'devise'
@@ -62,7 +63,6 @@ gem 'activeadmin-mongoid', github: 'pencilcheck/activeadmin-mongoid', branch: 'p
 gem 'activeadmin-settings', github: 'jimmyn/activeadmin-settings'
 gem 'active_admin_theme', github: 'jimmyn/active_admin_theme'
 gem 'activeadmin-extra', github: 'jimmyn/activeadmin-extra'
-gem 'activeadmin-mongoid-localize', github: 'rs-pro/activeadmin-mongoid-localize'
 
 group :development do
   gem 'better_errors'
@@ -81,6 +81,7 @@ generate "simple_form:install #{'--bootstrap' if bootstrap}"
 
 generate "devise:install"
 generate "active_admin:install"
+generate "activeadmin_settings:install"
 
 remove_file '.gitignore'
 create_file '.gitignore' do <<-TEXT
@@ -94,6 +95,7 @@ create_file '.gitignore' do <<-TEXT
 /log/*.log
 /tmp
 /public/system
+/public/uploads
 /config/mongoid.yml
 TEXT
 end
