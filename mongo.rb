@@ -55,6 +55,7 @@ gem 'bson_ext'
 gem 'fog'
 gem 'devise'
 gem 'devise-russian'
+gem 'decent_exposure'
 
 # Activeadmin
 gem 'ransack', github: 'pencilcheck/ransack', branch: 'patch-1'
@@ -179,16 +180,16 @@ end
 remove_file 'app/views/layouts/application.html.erb'
 create_file 'app/views/layouts/application.html.slim' do <<-TEXT
 doctype html
-html
-head
-title #{app_name.capitalize}
-meta name="viewport" content="width=device-width, initial-scale=1.0"
-= stylesheet_link_tag    "application", media: 'all'
-= javascript_include_tag "application"
-= csrf_meta_tags
+  html
+    head
+      title #{app_name.capitalize}
+      meta name="viewport" content="width=device-width, initial-scale=1.0"
+      = stylesheet_link_tag    "application", media: 'all'
+      = javascript_include_tag "application"
+      = csrf_meta_tags
 
-body
-= yield
+    body
+      = yield
 TEXT
 end
 
