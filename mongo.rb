@@ -30,7 +30,7 @@ gem 'uglifier'
 gem 'autoprefixer-rails'
 gem 'jquery-rails-cdn'
 gem 'coffee-rails'
-gem 'sass-rails'
+gem 'sass-rails', '~> 4.0.0'
 gem 'compass-rails'
 
 # Frontend
@@ -43,6 +43,7 @@ gem 'rails_view_helpers', github: 'jimmyn/rails_view_helpers'
 
 # Business logic
 gem 'therubyracer'
+gem 'activejob_backport'
 gem 'draper'
 gem 'simple_form'
 gem 'unicorn'
@@ -270,7 +271,7 @@ remove_file 'app/assets/stylesheets/application.css'
 create_file 'app/assets/stylesheets/application.css.sass' do <<-TEXT
 @import normalize-rails
 @import compass
-@import bootstrap_custom
+#{'@import bootstrap_custom' if bootstrap}
 TEXT
 end
 
@@ -279,7 +280,7 @@ create_file 'app/assets/javascripts/application.js.coffee' do <<-TEXT
 #= require jquery
 #= require jquery_ujs
 #= require evil-blocks
-#= require bootstrap_custom
+#{'#= require bootstrap_custom' if bootstrap}
 #= require_tree ./blocks
 
 TEXT
