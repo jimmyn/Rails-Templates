@@ -56,6 +56,7 @@ gem 'fog'
 gem 'devise'
 gem 'devise-russian'
 gem 'decent_exposure'
+gem 'metamagic'
 
 # Activeadmin
 gem 'ransack', github: 'pencilcheck/ransack', branch: 'patch-1'
